@@ -2,15 +2,18 @@ services:
   backup:
     build: .
     container_name: backup
-    volumes:
-      - /data/backups:/backups
-      - /data/keys:/root/.ssh
     environment:
-      DB_BACKUP_USER: ${DB_BACKUP_USER}
-      DB_BACKUP_PASSWORD: ${DB_BACKUP_PASSWORD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_BACKUP_USER: ${MYSQL_BACKUP_USER}
+      MYSQL_BACKUP_PASSWORD: ${MYSQL_BACKUP_PASSWORD}
+      MYSQL_DATABASES_LIST: ${MYSQL_DATABASES_LIST}
       ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      SYNC_SSH_KEY: ${SYNC_SSH_KEY}
       SYNC_USER: ${SYNC_BACKUP_USER}
       SYNC_HOST: ${SYNC_BACKUP_HOST}
       SYNC_REMOTE_DIR: ${SYNC_BACKUP_REMOTE_DIR}
       TZ: Europe/Ljubljana 
+    volumes:
+      - ${LOCAL_BACKUPS_DIR}:/backups
+      - ${SYNC_SSH_KEY}:/root/.ssh/id_rsa:ro
     restart: unless-stopped
