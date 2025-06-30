@@ -1,13 +1,17 @@
 #!/bin/bash
 # backup_databases.sh
 
+set -e  # Optional: Exit immediately on errors
+
 # Configuration
 BACKUP_DIR="/backups" # Dir inside container
-MYSQL_HOST="mariadb" 
-MYSQL_USER="${DB_BACKUP_USER}"
-MYSQL_PASSWORD="${DB_BACKUP_PASSWORD}"
+MYSQL_HOST="${MYSQL_HOST}" 
+MYSQL_USER="${MYSQL_BACKUP_USER}"
+MYSQL_PASSWORD="${MYSQL_BACKUP_PASSWORD}"
 ENCRYPTION_KEY="${ENCRYPTION_KEY}"
-DATABASES=("data" "app") # List your databases here
+
+# Convert comma-separated list to bash array
+IFS=',' read -r -a DATABASES <<< "$MYSQL_DATABASES_LIST"
 
 # Get current date in YYYY-MM-DD format
 CURRENT_DATE=$(date +%d-%m-%Y_%H-%M)
@@ -21,11 +25,12 @@ for DB in "${DATABASES[@]}"; do
     
     # Create SQL dump
     mariadb-dump -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$DB" > "$TMP_DIR/${DB}_backup_${CURRENT_DATE}.sql"
-    echo "Backup completed for database to directory: $TMP_DIR/${DB}_backup_${CURRENT_DATE}.sql"
     
     if [ $? -ne 0 ]; then
         echo "Error backing up $DB"
         continue
+    else
+        echo "Backup completed: $TMP_DIR/${DB}_backup_${CURRENT_DATE}.sql"
     fi
 done
 
@@ -41,7 +46,7 @@ if ls "$TMP_DIR"/*.sql 1> /dev/null 2>&1; then
     echo "Backup completed: $BACKUP_DIR/$BACKUP_FILE.tgz.enc"
     echo ""
 else
-    echo "No SQL files found to backup. Skipping tar and encryption."
+    echo "No SQL files found to backup. Skipping archive and encryption."
     echo ""
 fi
 
