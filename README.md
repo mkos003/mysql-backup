@@ -19,5 +19,13 @@ Docker container is using preconfigure scripts to execute 4 actions: `backup dat
 ## How to run backup container?
 `docker compose -f docker-compose.yml up -d`
 
-## How to test 
+## How to test scripts
 You can test individual script by entering the container manually `docker exec -it backup bash`, move to scripts `cd /scripts`, execute desired script `./<script_name> [OPTIONAL_PARAMETERS]`
+
+## Other manual commands
+Run restore script in container: `./restore_backup.sh <backup-file.tgz.enc> <database-name>`
+Manual restore: `openssl enc -aes-256-cbc -salt -pbkdf2 -d -in "<backup-file.tgz.enc>" -out "<backup-file.tgz>" -k <encryption-key>`
+
+## Clear remote server (this will delete backups on remote server)
+Create temp dir: `mkdir -p /tmp/empty_dir`
+Delete remote backups: `rsync -avz --delete -e "ssh -i <path_to_ssh_key> -o StrictHostKeyChecking=no" /tmp/empty_dir/ backup-user@46.150.50.168:<remote_backup_dir>`
