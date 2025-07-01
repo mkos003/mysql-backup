@@ -2,7 +2,7 @@
 
 # Configuration
 BACKUP_DIR="/backups" # Dir inside container
-DAYS_TO_KEEP=14
+DAYS_TO_KEEP="${RETENTION_DAYS}"
 
 # Use full paths for commands in cron
 FIND="/usr/bin/find"
