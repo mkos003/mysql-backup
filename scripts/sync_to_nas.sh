@@ -4,15 +4,15 @@
 SOURCE_DIR="/backups"
 
 # Destination on Synology NAS
-REMOTE_HOST="${SYNC_HOST}"
-REMOTE_USER="${SYNC_USER}"
-REMOTE_DIR="${SYNC_REMOTE_DIR}"
+REMOTE_HOST="${SYNC_BACKUP_HOST}"
+REMOTE_USER="${SYNC_BACKUP_USER}"
+REMOTE_DIR="${SYNC_BACKUP_REMOTE_DIR}"
 
 # SSH key path
 SSH_KEY="/root/.ssh/id_rsa"
 
-if [ ! -f "${SSH_KEY}" ]; then
-    echo "ERROR: SSH key not found: ${SSH_KEY}"
+if [ ! -f "${SYNC_SSH_KEY}" ]; then
+    echo "ERROR: SSH key not found: ${SYNC_SSH_KEY}"
     exit 1
 fi
 
