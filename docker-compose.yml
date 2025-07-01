@@ -12,6 +12,7 @@ services:
       SYNC_USER: ${SYNC_BACKUP_USER}
       SYNC_HOST: ${SYNC_BACKUP_HOST}
       SYNC_REMOTE_DIR: ${SYNC_BACKUP_REMOTE_DIR}
+      RETENTION_DAYS: ${RETENTION_DAYS}
       TZ: Europe/Ljubljana 
     volumes:
       - ${LOCAL_BACKUPS_DIR}:/backups
