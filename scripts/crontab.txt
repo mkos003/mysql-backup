@@ -1,9 +1,9 @@
 # /etc/crontabs/root
-# Run backup daily at 1:00 AM
+# RUN MYSQL BACKUP SCRIPT - Run backup daily at 1:00 AM
 0 1 * * * /scripts/backup_databases.sh >> /var/log/cron.log 2>&1
 
-# Run pruning daily at 2:00 AM
+# RUN LOCAL BACKUP PRUNE SCRIPT - Run pruning daily at 2:00 AM
 0 2 * * * /scripts/prune_backups.sh >> /var/log/cron.log 2>&1
 
-# Sync backups to Synology NAS at 3:00 AM
+# RUN SYNC SCRIPT TO SYNC ENCRYPTED ZIPPED FILES TO REMOTE SERVER - Sync backups to Synology NAS at 3:00 AM
 0 3 * * * /scripts/sync_to_nas.sh >> /var/log/cron.log 2>&1
