@@ -13,6 +13,7 @@ Docker container is using preconfigure scripts to execute 4 actions: `backup dat
 - MySQL backup user with mysqldump permission to dump desired databases
 - Encryption key for encrypting and decrypting zipped database files
 - Local and remote directory for storing encrypted files
+- Adjust variables in the `./.env` file to your dependencies 
 - Adjust parameters in the `./scripts/crontab.txt` to define script execution timings
 
 > You should only configure variables in .env file, see .env file for details
